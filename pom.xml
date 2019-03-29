@@ -10,7 +10,7 @@
     <groupId>org.igniterealtime.openfire.plugins</groupId>
     <artifactId>broadcast</artifactId>
     <version>1.9.3-SNAPSHOT</version>
-    <name>Broadcast Plugin</name>
+    <name>Broadcast</name>
     <description>The broadcast plugin broadcasts messages to all users in the system or to specific groups</description>
 
     <developers>
