@@ -31,7 +31,7 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-jspc-maven-plugin</artifactId>
-                <version>9.2.14.v20151106</version>
+                <version>11.0.26</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.igniterealtime.openfire</groupId>
