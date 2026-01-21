@@ -71,6 +71,8 @@ public class BroadcastPlugin implements Plugin, Component, PropertyEventListener
     private boolean disableGroupPermissions;
     private boolean all2ofline;
     private String messagePrefix;
+    private String messagePrefixToGroup;
+    private String messagePrefixToGroupDefault;
     private ComponentManager componentManager;
     private PluginManager pluginManager;
     private UserManager userManager;
@@ -87,6 +89,7 @@ public class BroadcastPlugin implements Plugin, Component, PropertyEventListener
         allowedUsers = stringToList(JiveGlobals.getProperty("plugin.broadcast.allowedUsers", ""));
         all2ofline = JiveGlobals.getBooleanProperty("plugin.broadcast.all2offline", false);
         messagePrefix = JiveGlobals.getProperty("plugin.broadcast.messagePrefix", null);
+        messagePrefixToGroupDefault = JiveGlobals.getProperty("plugin.broadcast.messagePrefixToGroup", null);
     }
 
     // Plugin Interface
@@ -269,9 +272,16 @@ public class BroadcastPlugin implements Plugin, Component, PropertyEventListener
             else if (canProceed) {
                 // Broadcast message to group users. Users that are offline will get
                 // the message when they come back online
-               if ( ( messagePrefix != null ) && ( message.getBody() != null ) ) {
-                    message.setBody(messagePrefix + " " + message.getBody());
+        	messagePrefixToGroup = JiveGlobals.getProperty("plugin.broadcast.messagePrefix_" + group.getName(), null);
+               if ( ( messagePrefixToGroup != null ) && ( message.getBody() != null ) ) {
+                    message.setBody(messagePrefixToGroup.replace("#name#",group.getName()).replace("#description#",group.getDescription()) + " " + message.getBody());
                 }
+                else if ( ( messagePrefixToGroupDefault != null ) && ( message.getBody() != null ) ) {
+            	    message.setBody(messagePrefixToGroupDefault.replace("#name#",group.getName()).replace("#description#",group.getDescription()) + " " + message.getBody());
+            	}
+                else if ( ( messagePrefix != null ) && ( message.getBody() != null ) ) {
+            	    message.setBody(messagePrefix + " " + message.getBody());
+            	}
                 for (JID userJID : group.getMembers()) {
                     Message newMessage = message.createCopy();
                     newMessage.setTo(userJID);
